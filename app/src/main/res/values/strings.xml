@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ProyectoB_PMDM_T2_Devesh_Hanumante</string>
     <string name="tv_buscador">Buscador de Museos de La Comunidad de Madrid</string>
+    <string name="btn_filtro">Seleccionar filtro</string>
+    <string name="btn_consultar">Consultar Listado</string>
+    <string name="tv_filtro_sel">Filtro Seleccionado</string>
 </resources>
