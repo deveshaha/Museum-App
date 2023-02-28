@@ -4,4 +4,6 @@
     <string name="btn_filtro">Seleccionar filtro</string>
     <string name="btn_consultar">Consultar Listado</string>
     <string name="tv_filtro_sel">Filtro Seleccionado</string>
+    <string name="it_listado">Listado</string>
+    <string name="it_mapa">Mapa</string>
 </resources>
