@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.proyectob_pmdm_t2_devesh_hanumante.dialog.DialogFilter;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnFilter, btnConsult;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showfilter() {
-        FilterDialog filterDialog = new FilterDialog();
+        DialogFilter filterDialog = new DialogFilter();
         filterDialog.show(getSupportFragmentManager(), "filter dialog");
         filterDialog.setCancelable(false);
     }

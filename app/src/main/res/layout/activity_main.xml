@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
         android:textColor="@color/black"
         android:text="@string/tv_buscador">
     </TextView>
