@@ -1,12 +1,10 @@
 
 package com.example.proyectob_pmdm_t2_devesh_hanumante.apidata;
 
-import com.example.proyectob_pmdm_t2_devesh_hanumante.Location;
-import com.example.proyectob_pmdm_t2_devesh_hanumante.Organization;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Graph {
+public class Museum {
 
     @SerializedName("@id")
     @Expose

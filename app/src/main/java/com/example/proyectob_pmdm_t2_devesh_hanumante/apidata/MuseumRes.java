@@ -5,14 +5,14 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Museums {
+public class MuseumRes {
 
     @SerializedName("@context")
     @Expose
     private Context context;
     @SerializedName("@graph")
     @Expose
-    private List<Graph> graph;
+    private List<Museum> museum;
 
     public Context getContext() {
         return context;
@@ -22,12 +22,12 @@ public class Museums {
         this.context = context;
     }
 
-    public List<Graph> getGraph() {
-        return graph;
+    public List<Museum> getMuseum() {
+        return museum;
     }
 
-    public void setGraph(List<Graph> graph) {
-        this.graph = graph;
+    public void setMuseum(List<Museum> museum) {
+        this.museum = museum;
     }
 
 }

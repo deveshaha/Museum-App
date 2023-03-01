@@ -1,7 +1,9 @@
 package com.example.proyectob_pmdm_t2_devesh_hanumante.dialog;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.example.proyectob_pmdm_t2_devesh_hanumante.R;
 public class DialogFilter extends DialogFragment {
 
     Spinner spnDistrict;
+    OnDatosListener listener;
 
     @NonNull
     @Override
@@ -35,7 +38,7 @@ public class DialogFilter extends DialogFragment {
         builder.setTitle("Filtrar por Distrito").setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO:
+                listener.onAceptarDatosListener(spnDistrict.getSelectedItem().toString());
             }
         });
 
@@ -52,5 +55,27 @@ public class DialogFilter extends DialogFragment {
         AlertDialog dialog = builder.create();
         return dialog;
 
+    }
+
+    public interface OnDatosListener{
+        void onAceptarDatosListener(String nombre);
+    }
+
+    @Override
+    public void onAttach(@NonNull Activity Activity) {
+        super.onAttach(Activity);
+        try {
+            listener = (OnDatosListener) Activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(Activity.toString() + " must implement OnDatosListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        if (listener != null){
+            listener = null;
+        }
+        super.onDetach();
     }
 }

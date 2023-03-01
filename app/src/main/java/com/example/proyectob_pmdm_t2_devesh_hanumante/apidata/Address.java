@@ -1,8 +1,6 @@
 
 package com.example.proyectob_pmdm_t2_devesh_hanumante.apidata;
 
-import com.example.proyectob_pmdm_t2_devesh_hanumante.Area;
-import com.example.proyectob_pmdm_t2_devesh_hanumante.District;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
