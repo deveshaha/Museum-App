@@ -7,7 +7,7 @@
         android:orderInCategory="1"
         app:showAsAction="never" />
     <item
-        android:id="@+id/accion2"
+        android:id="@+id/it_mapa"
         android:title="@string/it_mapa"
         android:orderInCategory="2"
         app:showAsAction="never" />

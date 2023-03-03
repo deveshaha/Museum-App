@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,6 +33,10 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity implements DialogFilter.OnDatosListener {
 
     Button btnFilter, btnConsult;
+    Fragment currentFragment;
+    ListFragment listFragment;
+    MapsFragment mapsFragment;
+    String district = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +56,44 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
         btnConsult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listFragment = new ListFragment();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                Fragment fragment = new ListFragment();
-                ft.add(R.id.fl_filtro, fragment);
+                ft.add(R.id.fl_filtro, listFragment);
                 ft.commit();
+                currentFragment = listFragment;
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    //method to check which menu item is selected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO: Mejorar el código
+        switch (item.getItemId()) {
+            case R.id.it_listado:
+                listFragment = new ListFragment();
+                if (currentFragment != listFragment) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, listFragment).commit();
+                }
+                System.out.println("FRagmento seleccionado: Listado");
+                return true;
+            case R.id.it_mapa:
+                mapsFragment = new MapsFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, mapsFragment).commit();
+                currentFragment = mapsFragment;
+                System.out.println("FRagmento seleccionado: Mapa");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void showfilter() {
@@ -76,6 +104,6 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
 
     @Override
     public void onAceptarDatosListener(String nombre) {
-        Log.d("TAG", "onAceptarDatosListener: " + nombre);
+        this.district = nombre;
     }
 }
