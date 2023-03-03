@@ -1,5 +1,6 @@
 package com.example.proyectob_pmdm_t2_devesh_hanumante;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -39,6 +40,27 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        listAdapter = new ListAdapter(museums);
+        listAdapter.setOnClickListeneer(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = rv.getChildAdapterPosition(v);
+
+                Snackbar.make(v, "Museum: " + museums.get(position).getTitle(), Snackbar.LENGTH_LONG).show();
+
+                String museumName = museums.get(position).getTitle();
+                String museumAddress = String.valueOf(museums.get(position).getAddress());
+                String museumDescription = museums.get(position).getRelation();
+
+                Intent intent = new Intent(getActivity(), MuseumDetailed.class);
+                intent.putExtra("museumName", museumName);
+                intent.putExtra("museumAddress", museumAddress);
+                intent.putExtra("museumDescription", museumDescription);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -80,5 +102,4 @@ public class ListFragment extends Fragment {
         });
 
     }
-
 }

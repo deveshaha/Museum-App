@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoB_PMDM_T2_Devesh_Hanumante"
         tools:targetApi="31">
-
+        <activity
+            android:name=".MuseumDetailed"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -38,8 +40,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

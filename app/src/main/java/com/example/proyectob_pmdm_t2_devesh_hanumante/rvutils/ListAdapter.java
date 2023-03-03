@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyectob_pmdm_t2_devesh_hanumante.R;
 import com.example.proyectob_pmdm_t2_devesh_hanumante.apidata.Museum;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +23,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListVH> implem
         this.museums = museums;
     }
 
-    public void setOnItemClickListener(View.OnClickListener listener){
+    public void setOnClickListeneer(View.OnClickListener listener){
         this.listener = listener;
     }
 
@@ -32,6 +31,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListVH> implem
     @Override
     public ListVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view  = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        view.setOnClickListener(this);
         return new ListVH(view);
     }
 
