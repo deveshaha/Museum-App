@@ -136,23 +136,23 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.it_listado) {
-            listFragment = new ListFragment();
-            if (fragment == mapsFragment) {
-                district = "";
+            if (fragment != listFragment) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, listFragment).commit();
+                district = "";
+                fragment = listFragment;
             }
             return true;
         } else if (item.getItemId() == R.id.it_mapa) {
-            mapsFragment = new MapsFragment();
-            if (fragment == listFragment) {
+            if (fragment != mapsFragment) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, mapsFragment).commit();
                 district = "";
-                btnConsult.setText(R.string.btn_consultar);
+                fragment = mapsFragment;
             }
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
+
     }
 
     private void showfilter() {
