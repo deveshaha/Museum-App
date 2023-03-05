@@ -12,19 +12,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Nombre del museo"
+        android:text="@string/tv_museum"
         android:textSize="24sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </TextView>
 
     <TextView
+        android:id="@+id/tv_district"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_district"
+        android:layout_marginTop="@dimen/global_padding"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/tv_museum_name">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_museum_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_Area"
+        android:layout_marginTop="@dimen/global_padding"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/tv_district">
+
+    </TextView>
+
+    <TextView
         android:id="@+id/tv_museum_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="direccion del museo"
-        app:layout_constraintTop_toBottomOf="@+id/tv_museum_name"
+        android:text="@string/tv_Address"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/tv_museum_area"
         android:layout_marginTop="@dimen/global_padding">
 
     </TextView>
@@ -33,10 +57,23 @@
         android:id="@+id/tv_museum_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="informacion del museo"
+        android:text="@string/tv_desc"
+        android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/tv_museum_address"
         android:layout_marginTop="@dimen/global_padding">
 
     </TextView>
+
+    <TextView
+        android:id="@+id/tv_shcedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_schedule"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/tv_museum_info"
+        android:layout_marginTop="@dimen/global_padding">
+
+    </TextView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

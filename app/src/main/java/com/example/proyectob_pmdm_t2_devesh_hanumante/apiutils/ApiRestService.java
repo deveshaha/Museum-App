@@ -4,6 +4,7 @@ import com.example.proyectob_pmdm_t2_devesh_hanumante.apidata.Graph;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiRestService {
@@ -14,5 +15,5 @@ public interface ApiRestService {
     Call<Graph> getMuseums(@Query("distrito_nombre") String district);
 
     @GET("tipo/entidadesyorganismos/{id}")
-    Call<Graph> getMusuemById(@Query("id") String id);
+    Call<Graph> getMusuemById(@Path("id") String id);
 }

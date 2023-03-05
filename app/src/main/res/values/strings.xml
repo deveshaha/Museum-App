@@ -11,4 +11,10 @@
     <string name="btn_map">Consultar mapa</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tv_Area">Area</string>
+    <string name="tv_district">Distrito</string>
+    <string name="tv_museum">Nombre del museo</string>
+    <string name="tv_Address">direccion del museo</string>
+    <string name="tv_desc">informacion del museo</string>
+    <string name="tv_schedule">horario del museo</string>
 </resources>
