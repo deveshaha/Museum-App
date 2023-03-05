@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
 
     //TODO: No cargar el mapa hasta que se pulse el botón de consultar
     //TODO: Si se pulsa el boton seleccionr filtro debe eliminar el fragmento de la lista y cargar el de los filtros
-    //TODO: SI estoy en el mapa no deja recargar la lista
+    //TODO: Si se pulsa el boton seleccionr filtro debe eliminar el fragmento de la lista y cargar el de los filtros
     Button btnFilter, btnConsult;
     Fragment fragment;
     ListFragment listFragment;
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Si se pulsa el boton seleccionr filtro debe eliminar el fragmento de la lista y cargar el de los filtros
                 //getSupportFragmentManager().beginTransaction().remove(listFragment).commit();
                 showfilter();
             }
@@ -140,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, listFragment).commit();
                 district = "";
                 fragment = listFragment;
+                tvSelectedFilter.setVisibility(View.INVISIBLE);
             }
             return true;
         } else if (item.getItemId() == R.id.it_mapa) {
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, mapsFragment).commit();
                 district = "";
                 fragment = mapsFragment;
+                tvSelectedFilter.setVisibility(View.INVISIBLE);
             }
             return true;
         } else {
