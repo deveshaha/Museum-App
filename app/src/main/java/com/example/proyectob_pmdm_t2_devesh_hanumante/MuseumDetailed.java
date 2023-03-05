@@ -3,6 +3,7 @@ package com.example.proyectob_pmdm_t2_devesh_hanumante;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -29,9 +30,13 @@ public class MuseumDetailed extends AppCompatActivity {
         tvMuseumAddress = findViewById(R.id.tv_museum_address);
         tvMuseumInfo = findViewById(R.id.tv_museum_info);
 
-        //im recieving null here, why?
-        String id = getIntent().getStringExtra("id");
-        System.out.println("id recibido del intent: " + id);
+        Intent intent = getIntent();
+        String id = "";
+
+        if (intent != null) {
+            id = intent.getStringExtra("id");
+            System.out.println("id recibido del intent: " + id);
+        }
 
         Retrofit retrofit = RetrofitClient.getClient(ApiRestService.BASE_URL);
         ApiRestService apiRestService = retrofit.create(ApiRestService.class);
