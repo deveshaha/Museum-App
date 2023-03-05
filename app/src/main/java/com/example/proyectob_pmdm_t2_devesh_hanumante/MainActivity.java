@@ -2,13 +2,8 @@ package com.example.proyectob_pmdm_t2_devesh_hanumante;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,11 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.proyectob_pmdm_t2_devesh_hanumante.apidata.Museum;
-import com.example.proyectob_pmdm_t2_devesh_hanumante.apidata.MuseumRes;
+import com.example.proyectob_pmdm_t2_devesh_hanumante.apidata.Graph;
 import com.example.proyectob_pmdm_t2_devesh_hanumante.apiutils.ApiRestService;
 import com.example.proyectob_pmdm_t2_devesh_hanumante.apiutils.RetrofitClient;
 import com.example.proyectob_pmdm_t2_devesh_hanumante.dialog.DialogFilter;
-import com.example.proyectob_pmdm_t2_devesh_hanumante.rvutils.ListAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -34,12 +28,17 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements DialogFilter.OnDatosListener {
 
+    //TODO: No cargar el mapa hasta que se pulse el botón de consultar
+    //TODO: Si se pulsa el boton seleccionr filtro debe eliminar el fragmento de la lista y cargar el de los filtros
+    //TODO: SI estoy en el mapa no deja recargar la lista
     Button btnFilter, btnConsult;
-    Fragment currentFragment;
+    Fragment fragment;
     ListFragment listFragment;
     MapsFragment mapsFragment;
     String district = "";
     TextView tvSelectedFilter;
+
+    List<Museum> museumList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +48,19 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
         btnFilter = findViewById(R.id.btn_filtrar);
         btnConsult = findViewById(R.id.btn_consultar);
         tvSelectedFilter = findViewById(R.id.tv_filtro_sel);
-
         tvSelectedFilter.setVisibility(View.INVISIBLE);
 
+        listFragment = new ListFragment();
+        mapsFragment = new MapsFragment();
+
+        //cargamos el fragmento de la lista por default
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_filtro, listFragment).commit();
+        fragment = listFragment; //asignamos el fragmento de la lista a la variable fragment para saber que fragmento está activo
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: Si se pulsa el boton seleccionr filtro debe eliminar el fragmento de la lista y cargar el de los filtros
+                //getSupportFragmentManager().beginTransaction().remove(listFragment).commit();
                 showfilter();
             }
         });
@@ -62,25 +68,62 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
         btnConsult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (district.equals("")) {
-                    getMuseums();
-                    tvSelectedFilter.setVisibility(View.VISIBLE);
-                    tvSelectedFilter.setText("Filtro seleccionado: Todos");
-                } else {
-                    Snackbar.make(v, "Consultando museos de " + district, Snackbar.LENGTH_LONG).show();
-                    tvSelectedFilter.setVisibility(View.VISIBLE);
-                    tvSelectedFilter.setText("Filtro seleccionado: " + district);
-                }
+                tvSelectedFilter.setVisibility(View.INVISIBLE);
+                getMuseumsInfo();
             }
         });
     }
 
-    private void getMuseums() {
-        listFragment = new ListFragment();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fl_filtro, listFragment);
-        ft.commit();
+    private void getMuseumsInfo() {
+        //inicializamos el cliente retrofit
+        Retrofit retrofit = RetrofitClient.getClient(ApiRestService.BASE_URL);
+        ApiRestService apiRestService = retrofit.create(ApiRestService.class);
+        Call<Graph> call = apiRestService.getMuseums(district);
+
+        call.enqueue(new Callback<Graph>() {
+            @Override
+            public void onResponse(Call<Graph> call, Response<Graph> response) {
+                if (response.isSuccessful()) {
+                    Graph graph = response.body();
+                    List<Museum> museumList = graph.getMuseum();
+                    if (fragment == listFragment) {
+                        listFragment.passMuseumInfo(museumList); //pasamos la lista de museos al fragmento de la lista
+                        tvSelectedFilter.setVisibility(View.VISIBLE);
+
+                        if (district.isEmpty()) {
+                            tvSelectedFilter.setText(R.string.all_museums);
+                        } else {
+                            String selectedFilterText = getString(R.string.selected_filter, district);
+                            tvSelectedFilter.setText(selectedFilterText);
+                        }
+
+                        if (museumList.isEmpty()) {
+                            Snackbar.make(getWindow().getDecorView().getRootView(), "No hay museos en ese distrito", Snackbar.LENGTH_LONG).show();
+                        }
+                    } else {
+                        mapsFragment.passMuseumInfo(museumList); //pasamos la lista de museos al fragmento del mapa
+                        tvSelectedFilter.setVisibility(View.VISIBLE);
+
+                        if (district.isEmpty()) {
+                            tvSelectedFilter.setText(R.string.all_museums);
+                        } else {
+                            String selectedFilterText = getString(R.string.selected_filter, district);
+                            tvSelectedFilter.setText(selectedFilterText);
+                        }
+
+                        if (museumList.isEmpty()) {
+                            Snackbar.make(getWindow().getDecorView().getRootView(), "No hay museos en ese distrito", Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                } else {
+                    Snackbar.make(getWindow().getDecorView().getRootView(), "Error en la respuesta", Snackbar.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Graph> call, Throwable t) {
+                Snackbar.make(getWindow().getDecorView().getRootView(), "Error en la conexión", Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -92,26 +135,23 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO: Mejorar el código
-        switch (item.getItemId()) {
-            case R.id.it_listado:
-                listFragment = new ListFragment();
+        if (item.getItemId() == R.id.it_listado) {
+            listFragment = new ListFragment();
+            if (fragment == mapsFragment) {
                 district = "";
-                if (currentFragment != listFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, listFragment).commit();
-                }
-                System.out.println("FRagmento seleccionado: Listado");
-                return true;
-            case R.id.it_mapa:
-                mapsFragment = new MapsFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, listFragment).commit();
+            }
+            return true;
+        } else if (item.getItemId() == R.id.it_mapa) {
+            mapsFragment = new MapsFragment();
+            if (fragment == listFragment) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, mapsFragment).commit();
                 district = "";
-                if (currentFragment != mapsFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_filtro, mapsFragment).commit();
-                    btnConsult.setText("Consultar Mapa");
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                btnConsult.setText(R.string.btn_consultar);
+            }
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

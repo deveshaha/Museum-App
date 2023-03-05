@@ -35,12 +35,11 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_filtrar">
     </TextView>
 
-    <!-- FrameLayout para mostrar el fragmento de filtro, hacer que tenga una distancia con el boton -->
-
     <FrameLayout
         android:id="@+id/fl_filtro"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_consultar"
         app:layout_constraintTop_toBottomOf="@+id/tv_filtro_sel">
     </FrameLayout>
 

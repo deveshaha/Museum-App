@@ -5,10 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyectob_pmdm_t2_devesh_hanumante.apidata.Museum;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,24 +18,36 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsFragment extends Fragment {
+
+    List<Museum> museumsMapList;
+    GoogleMap map;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            map = googleMap;
+            map.getUiSettings().setZoomControlsEnabled(true);
+            map.getUiSettings().setZoomGesturesEnabled(true);
+            map.getUiSettings().setCompassEnabled(true);
+            map.getUiSettings().setMyLocationButtonEnabled(true);
+
+            LatLng madrid = new LatLng(40.416775, -3.703790);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, 10));
+
+            map.clear();
+
+            if (museumsMapList != null) {
+                for (Museum museum : museumsMapList) {
+                    LatLng marker = new LatLng(museum.getLocation().getLatitude(), museum.getLocation().getLongitude());
+                    map.addMarker(new MarkerOptions().position(marker).title(museum.getTitle()));
+                }
+            }
+
         }
     };
 
@@ -52,6 +66,18 @@ public class MapsFragment extends Fragment {
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
+        }
+    }
+
+    public void passMuseumInfo(List<Museum> museumList) {
+        this.museumsMapList = museumList;
+
+        if (map != null) {
+            map.clear();
+            for (Museum museum : museumsMapList) {
+                LatLng marker = new LatLng(museum.getLocation().getLatitude(), museum.getLocation().getLongitude());
+                map.addMarker(new MarkerOptions().position(marker).title(museum.getTitle()));
+            }
         }
     }
 }
