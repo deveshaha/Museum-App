@@ -17,4 +17,5 @@
     <string name="tv_Address">direccion del museo</string>
     <string name="tv_desc">informacion del museo</string>
     <string name="tv_schedule">horario del museo</string>
+    <string name="btn_consultar_mapa">Consultar Mapa</string>
 </resources>

@@ -28,9 +28,6 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements DialogFilter.OnDatosListener {
 
-    //TODO: No cargar el mapa hasta que se pulse el botón de consultar
-    //TODO: Si se pulsa el boton seleccionr filtro debe eliminar el fragmento de la lista y cargar el de los filtros
-    //TODO: Si se pulsa el boton seleccionr filtro debe eliminar el fragmento de la lista y cargar el de los filtros
     Button btnFilter, btnConsult;
     Fragment fragment;
     ListFragment listFragment;
@@ -140,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
                 district = "";
                 fragment = listFragment;
                 tvSelectedFilter.setVisibility(View.INVISIBLE);
+                btnConsult.setText(R.string.btn_consultar);
             }
             return true;
         } else if (item.getItemId() == R.id.it_mapa) {
@@ -148,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements DialogFilter.OnDa
                 district = "";
                 fragment = mapsFragment;
                 tvSelectedFilter.setVisibility(View.INVISIBLE);
+                btnConsult.setText(R.string.btn_consultar_mapa);
             }
             return true;
         } else {
